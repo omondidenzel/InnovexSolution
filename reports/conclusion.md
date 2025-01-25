@@ -10,6 +10,6 @@ The baseline model, trained on a smaller dataset, showed poor performance. VGG16
 VGG16 because, the model can benefit from faster convergence, reduced training time, and improved accuracy, as it taps into the knowledge gained from ImageNet's large dataset. This decision came about as result to enhance model performance and address the shortcomings of the baseline model.
 
 ## Note 
-When I uploaded an airplane image the model was able to predict it airlane 
+When I uploaded an airplane image the model was able to predict it as an airlane 
 
 ![alt text](image.png)
