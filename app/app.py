@@ -7,7 +7,7 @@ import PIL
 
 app = Flask(__name__)
 
-# Upload folder for classified images can be stored in some db
+# Upload folder for classified images can be stored in some db in the future
 UPLOAD_FOLDER = 'static/uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
@@ -15,38 +15,38 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 MODEL_PATH = 'model/model.h5'
 model = load_model(MODEL_PATH)
 
-# Define class labels (update as per your model's classes)
+# Define class names
 class_names = ['airplane', 'automobile', 'bird', 'cat', 'deer', 'dog', 'frog', 'horse', 'ship', 'truck']
 
-# Ensure upload folder exists
+# Ensures upload folder exists
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 @app.route('/')
 def intro():
     """Introduction page."""
-    return render_template('intro.html')  # Ensure 'intro.html' exists in the templates folder
+    return render_template('intro.html')
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
     """Image upload and classification page."""
     if request.method == 'POST':
-        # Check if a file is uploaded
+        # Checker for if a file is uploaded
         if 'file' not in request.files:
             return "No file uploaded", 400
         file = request.files['file']
         if file.filename == '':
             return "No file selected", 400
         
-        # Save the uploaded file
+        # Saves the uploaded file in the system
         filepath = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
         file.save(filepath)
 
-        # Preprocess the image
-        image = load_img(filepath, target_size=(32, 32))  # Resize image to model's input size
+        # Image preprocessing for model input
+        image = load_img(filepath, target_size=(32, 32))
         image_array = img_to_array(image) / 255.0       
-        image_array = np.expand_dims(image_array, axis=0)  # Add batch dimension
+        image_array = np.expand_dims(image_array, axis=0) 
 
-        # Predict the class
+        # Use the model to make a prediction
         predictions = model.predict(image_array)
         predicted_class = class_names[np.argmax(predictions)]
 
