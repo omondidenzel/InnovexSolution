@@ -42,9 +42,9 @@ def upload():
         file.save(filepath)
 
         # Image preprocessing for model input
-        image = load_img(filepath, target_size=(32, 32))  # Resize image to model's input size
+        image = load_img(filepath, target_size=(32, 32))
         image_array = img_to_array(image) / 255.0       
-        image_array = np.expand_dims(image_array, axis=0)  # Add batch dimension
+        image_array = np.expand_dims(image_array, axis=0) 
 
         # Use the model to make a prediction
         predictions = model.predict(image_array)
